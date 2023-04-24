@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 )
 
@@ -70,11 +71,12 @@ func (app *Config) authenticate(w http.ResponseWriter, a AuthPayload) {
 		app.errorJSON(w, errors.New("invalid credentials"))
 		return
 	} else if response.StatusCode != http.StatusAccepted {
+		log.Print(http.StatusAccepted)
 		app.errorJSON(w, errors.New("error calling auth service"))
 		return
 	}
 
-	// create a variable we'll read response.Body into
+	//create a variable we'll read response.Body into
 	var jsonFromService jsonResponse
 
 	// decode the json from the auth service
