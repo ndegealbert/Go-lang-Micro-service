@@ -1,0 +1,10 @@
+go 1.20
+
+
+use (
+./authentication-service
+./broker-service
+./logger-service
+./mail-service
+./front-end
+)
