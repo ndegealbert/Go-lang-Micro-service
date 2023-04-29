@@ -1,8 +1,5 @@
 .vscode
-/db-data
-/postgres-data 
-
-
+/project/db-data
 
 
 

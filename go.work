@@ -7,4 +7,5 @@ use (
 ./logger-service
 ./mail-service
 ./front-end
+./listener-service
 )
