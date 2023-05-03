@@ -14,7 +14,7 @@ type Consumer struct { //This type is used to receive event from the mq
 
 	conn *amqp.Connection //declare struct with pointer amqp connection
 
-	queueName string // the queuename
+	queueName string //the queuename
 }
 
 func NewConsumer(conn *amqp.Connection) (Consumer, error) {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"listener-service/event"
 	"log"
 	"math"
 	"os"
@@ -21,13 +22,24 @@ func main() {
 	}
 
 	defer rabbitConn.Close()
-	log.Println("connected to rubbit mq")
 
 	//start listening for the messages
 
+	log.Println("Listening for and consuming rubbit mq messageges......")
+
 	//create consumer
+	consumer, err := event.NewConsumer(rabbitConn)
+
+	if err != nil {
+		panic(err)
+	}
 
 	//watch the queue and consume event
+	err = consumer.Listen([]string{"log.INFO", "log.WARNING", "log.ERROR"})
+
+	if err != nil {
+		log.Println(err)
+	}
 
 }
 
@@ -38,14 +50,14 @@ func connect() (*amqp.Connection, error) {
 	var connection *amqp.Connection
 
 	//dont continue untill rubbit mq is ready
-
 	for {
-		c, err := amqp.Dial("amqp://guest:guest@localhost")
+		c, err := amqp.Dial("amqp://guest:guest@rabbitmq")
 
 		if err != nil {
 			fmt.Println("RubbitMQ not yet ready ....")
 			counts++
 		} else {
+			log.Println("Connected to RubbitMQ")
 			connection = c
 			break
 		}
