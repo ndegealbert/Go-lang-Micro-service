@@ -54,7 +54,7 @@ func (consumer *Consumer) Listen(topics []string) error {
 		return err
 	}
 
-	defer ch.Close()
+	defer ch.Close() //close of the channel will be delayed untill the function complete to execute
 
 	q, err := declareRandomQueue(ch)
 
