@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -21,32 +20,21 @@ func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Print("logge1")
-
 	// validate the user against the database
-	user, err := app.Models.User.GetByEmail(requestPayload.Email)
+	user, err := app.Repo.GetByEmail(requestPayload.Email)
 	if err != nil {
 		app.errorJSON(w, errors.New("invalid credentials"), http.StatusBadRequest)
 		return
 	}
 
-	log.Print("logge2")
-
-	valid, err := user.PasswordMatches(requestPayload.Password)
-
-	log.Print(valid)
-
+	valid, err := app.Repo.PasswordMatches(requestPayload.Password, *user)
 	if err != nil || !valid {
 		app.errorJSON(w, errors.New("invalid credentials"), http.StatusBadRequest)
 		return
 	}
 
-	log.Print("logge3")
-
-	//log authentication
-
-	err = app.logRequest("authentication", fmt.Sprint("%s logged in", user.Email))
-
+	// log authentication
+	err = app.logRequest("authentication", fmt.Sprintf("%s logged in", user.Email))
 	if err != nil {
 		app.errorJSON(w, err)
 		return
@@ -62,7 +50,6 @@ func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *Config) logRequest(name, data string) error {
-
 	var entry struct {
 		Name string `json:"name"`
 		Data string `json:"data"`
@@ -72,23 +59,18 @@ func (app *Config) logRequest(name, data string) error {
 	entry.Data = data
 
 	jsonData, _ := json.MarshalIndent(entry, "", "\t")
+	logServiceURL := "http://logger-service/log"
 
-	logServiceUrl := "http://logger-service/log"
-
-	request, err := http.NewRequest("POST", logServiceUrl, bytes.NewBuffer(jsonData))
-
+	request, err := http.NewRequest("POST", logServiceURL, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return err
 	}
 
-	client := &http.Client{}
-
-	_, err = client.Do(request)
-
+	//client := &http.Client{}
+	_, err = app.Client.Do(request)
 	if err != nil {
 		return err
 	}
 
 	return nil
-
 }
