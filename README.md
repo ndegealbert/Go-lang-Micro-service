@@ -14,7 +14,7 @@ For a long time, web applications were primarily developed as monolithic applica
 
 ## Project Description
 
-In this project, we will develop a series of self-contained microservices that communicate with each other and a simple front-end application. The services we will build include:
+In this project, contained self-contained microservices that communicate with each other and a simple front-end application. The services we will build include:
 
 - **Front End Service:** Displays web pages.
 - **Authentication Service:** Handles user authentication with a PostgreSQL database.
@@ -23,14 +23,3 @@ In this project, we will develop a series of self-contained microservices that c
 - **Broker Service:** An optional entry point into the microservice cluster.
 - **Mail Service:** Converts JSON payloads into formatted emails and sends them out.
 
-All services will be implemented in Go (Golang), a language particularly well-suited for building distributed web applications.
-
-## Deployment
-
-We will also cover deployment strategies for our distributed application using Docker Swarm and Kubernetes, enabling us to scale services up and down as needed while ensuring minimal downtime during updates.
-
-## Getting Started
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
