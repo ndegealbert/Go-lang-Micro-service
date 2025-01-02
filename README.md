@@ -14,7 +14,7 @@ For a long time, web applications were primarily developed as monolithic applica
 
 ## Project Description
 
-In this project, contained self-contained microservices that communicate with each other and a simple front-end application. The services we will build include:
+In this project, contained self-contained microservices that communicate with each other and a simple front-end application. The services stack includes:
 
 - **Front End Service:** Displays web pages.
 - **Authentication Service:** Handles user authentication with a PostgreSQL database.
